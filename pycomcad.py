@@ -28,7 +28,15 @@ def VtObject(obj):
 	converts obj in python into required obj array
 	"""
 	return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_DISPATCH, obj)
-
+def vtFloat(list):
+    """converts list in python into required float"""
+    return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_R8, list)
+def vtInt(list):
+    """converts list in python into required int"""
+    return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_I2, list)
+def vtVariant(list):
+    """converts list in python into required variant"""
+    return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_VARIANT, list)
 def AngleDtoR(degree):
 	"""
 	convert degree to rad
@@ -85,8 +93,7 @@ class Autocad:
 		"""
 		return Autocad Application path
 		"""
-		return self.acad.Path 
-
+		return self.acad.Path
 	"""
 	System variable
 	"""
@@ -1089,6 +1096,21 @@ class Autocad:
 		"""
 		return self.acad.ActiveDocument.Utility.GetReal(prompt)
 
+	def GetSelectionSets(self,string):
+		"""
+				:param string: name of selection set
+				:return: SelectionSets object default name is '0'
+				For example:
+				>>>ft=[0, -4, 40, 8]  # define filter type
+				>>>fd=['Circle', '>=', 5, '0'] #define filter data
+				>>>ft=vtInt(ft) # data type convertion
+				>>>fd=vtVariant(fd) #data type convertion
+				>>>slt=acad.GetSelectionSets() # Create selectionset object
+				>>>slt.SelectOnScreen(ft,fd) # select on screen
+				>>>slt.Erase() # Erase selected entity
+				>>>slt.Delete() # Delete selectionsets object
+				"""
+		return self.acad.ActiveDocument.SelectionSets.Add (string)
 
 if __name__=='__main__':
 	table={'dimclrd':62,'dimdlI':0,'dimclre':62,
