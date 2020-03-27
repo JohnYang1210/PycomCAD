@@ -5,7 +5,7 @@ import pythoncom
 import win32com.client
 import math
 
-def Apoint(x,y,z):
+def Apoint(x,y,z=0):
 	"""
 	Converts x,y,z into required float array as the arguments of coordinates of a point
 	"""
@@ -28,13 +28,13 @@ def VtObject(obj):
 	converts obj in python into required obj array
 	"""
 	return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_DISPATCH, obj)
-def vtFloat(list):
+def VtFloat(list):
     """converts list in python into required float"""
     return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_R8, list)
-def vtInt(list):
+def VtInt(list):
     """converts list in python into required int"""
     return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_I2, list)
-def vtVariant(list):
+def VtVariant(list):
     """converts list in python into required variant"""
     return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_VARIANT, list)
 def AngleDtoR(degree):
@@ -1103,8 +1103,8 @@ class Autocad:
 				For example:
 				>>>ft=[0, -4, 40, 8]  # define filter type
 				>>>fd=['Circle', '>=', 5, '0'] #define filter data
-				>>>ft=vtInt(ft) # data type convertion
-				>>>fd=vtVariant(fd) #data type convertion
+				>>>ft=VtInt(ft) # data type convertion
+				>>>fd=VtVariant(fd) #data type convertion
 				>>>slt=acad.GetSelectionSets() # Create selectionset object
 				>>>slt.SelectOnScreen(ft,fd) # select on screen
 				>>>slt.Erase() # Erase selected entity
