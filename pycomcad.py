@@ -133,7 +133,15 @@ class Autocad:
 		"""
 		return current file path
 		"""
-		return self.acad.ActiveDocument.Path 
+		return self.acad.ActiveDocument.Path
+	@property
+	def IsSaved(self):
+		"""
+		Specifies if the document has any unsaved changes
+		:return:True: The document has no unsaved changes.
+				False: The document has unsaved changes.
+		"""
+		return self.acad.ActiveDocument.Saved
 
 
 
