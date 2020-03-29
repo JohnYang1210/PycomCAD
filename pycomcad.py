@@ -479,26 +479,46 @@ class Autocad:
 		"""
 		return self.acad.ActiveDocument.Layers.Add(layername)
 
+	@property
 	def ActivateLayer(self,layer):
 		"""
 		Activate layer(object,not string)
 		"""
 		self.acad.ActiveDocument.ActiveLayer=layer
 
+	@property
 	def LayerNumbers(self):
 		"""
 		return the number of layers in the active document
 		"""
-		return self.acad.ActiveDocument.Layers.Count 
+		return self.acad.ActiveDocument.Layers.Count
 
-	def GetLayer(self,index):
+	@property
+	def LayerNames(self):
+		"""
+		:return a list containing all layer names
+		"""
+		a=[]
+		for i in range(self.LayerNumbers):
+			a.append(self.acad.ActiveDocument.Layers.Item(i).Name)
+		return a
+	def GetLayer(self,index=None,name=None):
 		"""
 		get an indexed layer
 		index:integer(0~N-1,N is the total number of layers)
+		name: string, the name of layer which exists already
+		Note:index an name can only be passed one
 		"""
+		if name:
+			layer_index=self.LayerNames.index(name)
+			index=layer_index
 		return self.acad.ActiveDocument.Layers.Item(index)
+
 	@property 
 	def Layers(self):
+		"""
+		:return layer set object
+		"""
 		return self.acad.ActiveDocument.Layers
 	"""
 	The state change and deletion of layer:
