@@ -52,13 +52,13 @@ def AngleRtoD(rad):
 
 def FilterType(ftype):
 	"""
-	ftype shall be tuple
+	ftype shall be tuple.Refer to DXF in acad_aag.chm to learn about DXF group code.
 	"""
 	return win32com.client.VARIANT(pythoncom.VT_I2|pythoncom.VT_ARRAY,ftype)
 
 def FilterData(fdata):
 	"""
-	fdata shall be tuple
+	fdata shall be tuple.Refer to DXF in acad_aag.chm to learn about DXF group code.
 	"""
 	return win32com.client.VARIANT(pythoncom.VT_VARIANT|pythoncom.VT_ARRAY,fdata)
 
@@ -392,7 +392,7 @@ class Autocad:
 		"""
 		return self.acad.ActiveDocument.ModelSpace.Item(i)
 
-	def CreateSlectSet(self,setname):
+	def GetSelectionSets(self,setname):
 		"""
 		setname:string, the name of selection set.
 		There are 2 steps to select entity object:
@@ -402,6 +402,16 @@ class Autocad:
 		it can never be created again, unless it is
 		deleted.
 		This method provides the first step.
+		For example:
+		>>>ft=[0, -4, 40, 8]  # define filter type
+		>>>fd=['Circle', '>=', 5, '0'] #define filter data
+		>>>ft=VtInt(ft) # data type convertion
+		>>>fd=VtVariant(fd) #data type convertion
+		>>>slt=acad.GetSelectionSet('slt') # Create selectionset object
+		>>>slt.SelectOnScreen(ft,fd) # select on screen
+		>>>slt.Erase() # Erase selected entity
+		>>>slt.Delete() # Delete selectionsets object
+     
 		"""
 		return self.acad.ActiveDocument.SelectionSets.Add(setname)
 
@@ -1124,21 +1134,21 @@ class Autocad:
 		"""
 		return self.acad.ActiveDocument.Utility.GetReal(prompt)
 
-	def GetSelectionSets(self,string):
-		"""
-				:param string: name of selection set
-				:return: SelectionSets object default name is '0'
-				For example:
-				>>>ft=[0, -4, 40, 8]  # define filter type
-				>>>fd=['Circle', '>=', 5, '0'] #define filter data
-				>>>ft=VtInt(ft) # data type convertion
-				>>>fd=VtVariant(fd) #data type convertion
-				>>>slt=acad.GetSelectionSets() # Create selectionset object
-				>>>slt.SelectOnScreen(ft,fd) # select on screen
-				>>>slt.Erase() # Erase selected entity
-				>>>slt.Delete() # Delete selectionsets object
-				"""
-		return self.acad.ActiveDocument.SelectionSets.Add (string)
+# 	def GetSelectionSets(self,string):
+# 		"""
+# 				:param string: name of selection set
+# 				:return: SelectionSets object default name is '0'
+# 				For example:
+# 				>>>ft=[0, -4, 40, 8]  # define filter type
+# 				>>>fd=['Circle', '>=', 5, '0'] #define filter data
+# 				>>>ft=VtInt(ft) # data type convertion
+# 				>>>fd=VtVariant(fd) #data type convertion
+# 				>>>slt=acad.GetSelectionSets() # Create selectionset object
+# 				>>>slt.SelectOnScreen(ft,fd) # select on screen
+# 				>>>slt.Erase() # Erase selected entity
+# 				>>>slt.Delete() # Delete selectionsets object
+# 				"""
+# 		return self.acad.ActiveDocument.SelectionSets.Add (string)
 
 if __name__=='__main__':
 	table={'dimclrd':62,'dimdlI':0,'dimclre':62,
