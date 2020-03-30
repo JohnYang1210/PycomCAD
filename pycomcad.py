@@ -407,7 +407,7 @@ class Autocad:
 		>>>fd=['Circle', '>=', 5, '0'] #define filter data
 		>>>ft=VtInt(ft) # data type convertion
 		>>>fd=VtVariant(fd) #data type convertion
-		>>>slt=acad.GetSelectionSet('slt') # Create selectionset object
+		>>>slt=acad.GetSelectionSets('slt') # Create selectionset object
 		>>>slt.SelectOnScreen(ft,fd) # select on screen
 		>>>slt.Erase() # Erase selected entity
 		>>>slt.Delete() # Delete selectionsets object
