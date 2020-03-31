@@ -27,6 +27,8 @@ By default,pycomcad is lazy-bind mode and that means pycomcad knows nothing abou
 
 Autocad object,assuming to `acad`, in Pycomcad has two properties to examin whether the module is earlybind or not and turn on earlybind mode if it is not,and they are `acad.IsEarlyBind` and `acad.TurnOnEarlyBind`.
 
+Please note that,if there are multi-version Autocad on your PC, whether the Autocad object in pycomcad is EarlyBind will depends on the specific version of opened Autocad.So it's recommended to turn on all version's EarlyBind mode.
+
 ### 3.3 Major structure of module
 
 * System variable
