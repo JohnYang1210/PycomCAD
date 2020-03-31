@@ -23,7 +23,7 @@ These functions are used to convert data type.
 
 This blog(https://www.cnblogs.com/johnyang/p/12521301.html) written by myself may be referenced to learn about topics related to early-bind and lazy-bind mode.
 
-By default,pycomcad is lazy-bind mode and that means pycomcad knows nothing about the method or property of specified entity even if the type of the entity itself.And actually, this has a huge impact on programming because we shall know clearly the type of entities in Autocad in order to do something different according to the type of selected entity.
+By default,pycomcad is lazy-bind mode and that means pycomcad knows nothing about the method or property of specified entity even if the type of the entity itself.And actually, this has a huge impact on programming because we shall know clearly the type of entities in Autocad in order to do something different according to the type of selected entity.For example, as for EarlyBind mode,pycomcad will recognize win32com.client.constants.acRed,which is a constant value, while LazyBind mode will not recognize it.
 
 Autocad object,assuming to `acad`, in Pycomcad has two properties to examin whether the module is earlybind or not and turn on earlybind mode if it is not,and they are `acad.IsEarlyBind` and `acad.TurnOnEarlyBind`.
 
