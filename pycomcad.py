@@ -1037,8 +1037,11 @@ class Autocad:
 		acLineWithArrow 
 		acSplineNoArrow 
 		acSplineWithArrow
+		>>>ann=acad.AddMText('demo',Apoint(30,30,0),2)
+		>>>import win32com.client
+		>>>acad.AddLeader(0,0,0,30,30,0,annotation=a,type=win32com.client.constants.acLineWithArrow)
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddLeader(VtVertex(*pntArray),pntArray,annotation,type)
+		return self.acad.ActiveDocument.ModelSpace.AddLeader(VtVertex(*pntArray),annotation,type)
 
 	"""
 	Dimension style object
