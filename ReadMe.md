@@ -17,7 +17,7 @@
 
 ### 3.1 Module-level functions
 
-These functions are used to convert data type.
+These functions are used to convert data type.Details about data type convertion can be referred to https://www.cnblogs.com/johnyang/p/12617881.html .
 
 ### 3.2 Early-bind mode Or Lazy-bind mode
 
