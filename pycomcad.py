@@ -23,7 +23,7 @@ def VtVertex(*args):
 	"""
 	return win32com.client.VARIANT(pythoncom.VT_ARRAY|pythoncom.VT_R8,args)
 
-def VtObject(obj):
+def VtObject(*obj):
 	"""
 	converts obj in python into required obj array
 	"""
@@ -151,6 +151,16 @@ class Autocad:
 		"""
 		return self.acad.Documents.Count
 
+	def GetOpenedFile(self,index=None,name=None):
+		"""
+		Return already opened file whose index is index or name is name as
+		the Current file
+		:param index: int,the number of index of file targeted to be set as the current file
+		:param name: string,the name of file targeted to be set as the current file
+		"""
+		if name:
+			index=self.OpenedFilenames.index(name)
+		return self.acad.Documents.Item(index)
 	def ActivateFile(self,index=None,name=None):
 		"""
 		Activate already opened file whose index is index or name is name as
