@@ -113,9 +113,9 @@ class Autocad:
 		open a dwg file in the path
 		"""
 		self.acad.Documents.Open(path)
-	def AddFile(self):
+	def CreateNewFile(self):
 		"""
-		add a dwg file 
+		Create a new dwg file,by default, the name is Drawing1.dwg
 		"""
 		self.acad.Documents.Add()
 	def SaveFile(self):
@@ -129,10 +129,44 @@ class Autocad:
 		"""
 		self.acad.ActiveDocument.SaveAs(path)
 	def Close(self):
+		"""
+		Close current file
+		:return:
+		"""
 		self.acad.ActiveDocument.Close()
 
 	@property
+	def OpenedFilenames(self):
+		"""
+		:return: list,all opened filenames
+		"""
+		names=[]
+		for i in range(self.OpenedFilenumbers):
+			names.append(self.acad.Documents.Item(i).Name)
+		return names
+	@property
+	def OpenedFilenumbers(self):
+		"""
+		:return: the number of opened file
+		"""
+		return self.acad.Documents.Count
+
+	def ActivateFile(self,index=None,name=None):
+		"""
+		Activate already opened file whose index is index or name is name as
+		the Current file
+		:param index: int,the number of index of file targeted to be set as the current file
+		:param name: string,the name of file targeted to be set as the current file
+		"""
+		if name:
+			index=self.OpenedFilenames.index(name)
+		self.acad.Documents.Item(index).Activate()
+
+	@property
 	def CurrentFilename(self):
+		"""
+		:return: str,the name of current file name
+		"""
 		return self.acad.ActiveDocument.Name
 
 	@property
@@ -530,6 +564,12 @@ class Autocad:
 		:return layer set object
 		"""
 		return self.acad.ActiveDocument.Layers
+	@property
+	def ActiveLayer(self):
+		"""
+		:return: ActiveLayer object
+		"""
+		return self.acad.ActiveDocument.ActiveLayer
 	"""
 	The state change and deletion of layer:
 	(1)Obj.LayerOn=True/False
