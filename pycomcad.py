@@ -153,25 +153,32 @@ class Autocad:
 		"""
 		return self.acad.Documents.Count
 
-	def GetOpenedFile(self,index=None,name=None):
+	def GetOpenedFile(self,file):
 		"""
 		Return already opened file whose index is index or name is name as
 		the Current file
-		:param index: int,the number of index of file targeted to be set as the current file
-		:param name: string,the name of file targeted to be set as the current file
+		:param file: int,or string,the number of index or the name of file targeted to be set as the current file
 		"""
-		if name:
-			index=self.OpenedFilenames.index(name)
+		if isinstance(file,str):
+			index = self.OpenedFilenames.index(file)
+		elif isinstance(file,int):
+			index=file
+		else:
+			raise PycomError('Type of file in GetOpenedFile is wrong ')
 		return self.acad.Documents.Item(index)
-	def ActivateFile(self,index=None,name=None):
+
+	def ActivateFile(self,file):
 		"""
 		Activate already opened file whose index is index or name is name as
 		the Current file
-		:param index: int,the number of index of file targeted to be set as the current file
-		:param name: string,the name of file targeted to be set as the current file
+		:param file: int,or str,the number of index or the name of file targeted to be set as the current file
 		"""
-		if name:
-			index=self.OpenedFilenames.index(name)
+		if isinstance(file,str):
+			index = self.OpenedFilenames.index(name)
+		elif isinstance(file,int):
+			index=file
+		else:
+			raise PycomError('Type of file in ActivateFile() is wrong')
 		self.acad.Documents.Item(index).Activate()
 
 	def DeepClone(self,objects,Owner=None,IDPairs=win32com.client.VARIANT(pythoncom.VT_VARIANT, ())):
@@ -214,14 +221,10 @@ class Autocad:
 			return self.acad.ActiveDocument.CopyObjects(obj)
 		else:
 			try:
-				if isinstance(Owner,str):
-					newOwner=self.GetOpenedFile(name=Owner).ModelSpace
-				elif isinstance(Owner,int):
-					newOwner=self.GetOpenedFile(index=Owner).ModelSpace
+				newOwner=self.GetOpenedFile(Owner).ModelSpace
 			except:
 				raise PycomError('File %s is not opened'% Owner)
 			return self.acad.ActiveDocument.CopyObjects(obj,newOwner,IDPairs)
-
 
 	@property
 	def CurrentFilename(self):
@@ -584,12 +587,13 @@ class Autocad:
 		"""
 		return self.acad.ActiveDocument.Layers.Add(layername)
 
-	@property
+
 	def ActivateLayer(self,layer):
 		"""
-		Activate layer(object,not string)
+		Activate layer
+		layer:str or int, the index or the name of the being activated layer
 		"""
-		self.acad.ActiveDocument.ActiveLayer=layer
+		self.acad.ActiveDocument.ActiveLayer=self.GetLayer(layer)
 
 	@property
 	def LayerNumbers(self):
@@ -607,18 +611,18 @@ class Autocad:
 		for i in range(self.LayerNumbers):
 			a.append(self.acad.ActiveDocument.Layers.Item(i).Name)
 		return a
-	def GetLayer(self,index=None,name=None):
+	def GetLayer(self,layer):
 		"""
 		get an indexed layer
-		index:integer(0~N-1,N is the total number of layers)
-		name: string, the name of layer which exists already
-		Note:index an name can only be passed one
+		layer:int or string, the index or the name of layer which exists already.
 		"""
-		if name:
-			layer_index=self.LayerNames.index(name)
-			index=layer_index
+		if isinstance(layer,str):
+			index=self.LayerNames.index(layer)
+		elif isinstance(layer,int):
+			index=layer
+		else:
+			raise PycomError('Type of layer in GetLayer() is wrong')
 		return self.acad.ActiveDocument.Layers.Item(index)
-
 	@property 
 	def Layers(self):
 		"""
@@ -654,8 +658,6 @@ class Autocad:
 	X:string, the name of loaded linetype
 	(3)Obj.Name
 	"""
-
-
 	"""
 	Linetype
 	"""
