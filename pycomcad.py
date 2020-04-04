@@ -62,7 +62,9 @@ def FilterData(fdata):
 	"""
 	return win32com.client.VARIANT(pythoncom.VT_VARIANT|pythoncom.VT_ARRAY,fdata)
 
-
+class PycomError(Exception):
+	def __init__(self,info):
+		print(info)
 class Autocad:
 	def __init__(self):
 		try:
@@ -171,6 +173,55 @@ class Autocad:
 		if name:
 			index=self.OpenedFilenames.index(name)
 		self.acad.Documents.Item(index).Activate()
+
+	def DeepClone(self,objects,Owner=None,IDPairs=win32com.client.VARIANT(pythoncom.VT_VARIANT, ())):
+		"""
+		Deep clone objects from current file to specified file's ModelSpace
+		:param objects: objects needed to be deep cloned.Type: IAcadSelectionSet(selection sets),tuple of entity object
+		:param Owner:specified opened file name,Type: string;Or the index of specified opened file name.
+		:param ID:IDPairs.Default value has been set.
+		:return:tuple of deep cloned object
+		For example:
+		>>from pycomcad import *
+		>>acad=Autocad()
+		>>te1=acad.AddCircle(Apoint(0,0,0),200)
+		>>te2=acad.AddCircle(Apoint(100,100,0),200)
+		>>acad.CreateNewFile()
+		>>acad.ActivateFile(0)
+		>>result=acad.DeepClone((te1,),1) # Deep Clone one object,notice the naunce between (te1,)and (te1),the latter one is int.
+		>>result[0][0].Move(Apoint(0,0,0),Apoint(100,100,0))
+		>>acad.CurrentFilename
+		>>slt=acad.GetSelectionSets('slt1')
+		>>slt.SelectOnScreen()
+		>>result1=acad.DeepClone(slt,'Drawing2.dwg')
+		"""
+		if isinstance(objects,tuple):
+			if not objects:
+				raise PycomError('Objects in DeepClone() is empty tuple ')
+			else:
+				obj=VtObject(*objects)
+		elif 'IAcadSelectionSet' in str(type(objects)):
+			if objects.Count==0:
+				raise PycomError('SelectionSets in DeepClone() is empty')
+			else:
+				obj=[]
+				for i in range(objects.Count):
+					obj.append(objects.Item(i))
+				obj=VtObject(*obj)
+		else:
+			raise PycomError('Type of objects in DeepClone() is wrong')
+		if not Owner:
+			return self.acad.ActiveDocument.CopyObjects(obj)
+		else:
+			try:
+				if isinstance(Owner,str):
+					newOwner=self.GetOpenedFile(name=Owner).ModelSpace
+				elif isinstance(Owner,int):
+					newOwner=self.GetOpenedFile(index=Owner).ModelSpace
+			except:
+				raise PycomError('File %s is not opened'% Owner)
+			return self.acad.ActiveDocument.CopyObjects(obj,newOwner,IDPairs)
+
 
 	@property
 	def CurrentFilename(self):
