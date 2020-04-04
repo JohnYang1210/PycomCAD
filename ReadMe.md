@@ -49,6 +49,7 @@ Detailed information can be found in `pycomcad.py` and `acadauto.chm`.
 ### 4.Practical case and updating ...
 
 Some actual application of pycomcad in my practical work can reffer to https://github.com/JohnYang1210/DesignWorkTask. With the increasing requirement encountered in daily work and for the integrity of module, pycomcad shall be evolving up to date constantly.
+If you have any interest in this project,clone it,see the source and apply it to the real work.There are still so many function to add or update, once you find it,pull request it or contact with me through email:1574891843@qq.com, Let's work together to make Pycomcad more robust,integrated,concise and more powerful!
 
 
 ```python
