@@ -1153,12 +1153,33 @@ class Autocad:
 	X:self.DimStyle0, self.ActiveDimStyle,and other dimension style object
 
 	"""
-	def AddDimStyle(self,name):
+	def CreateDimStyle(self,name):
 		"""
 		creat a new dimension style named name.
 		name:string
+		Once created, Using the created dimstyle object's CopyFrom() method to get an existed dimstyle's
+		attributes.DimStyle0 is prefered to be copied from,when a new dim factor is needed, just reset corresponding system variable.For example:
+		>>acad=Autocad()
+		>>testDim=acad.CreateDimStyle('test')
+		>>acad.SetSystemVariable('dimlfac',100)
+		>>testDim.CopyFrom(acad.DimStyle0)
 		"""
 		return self.acad.ActiveDocument.DimStyles.Add(name)
+	@property
+	def DimStyleNumbers(self):
+		"""
+		:return: int,the total number of defined dim style
+		"""
+		return self.DimStyles.Count
+	@property
+	def DimStyleNames(self):
+		"""
+		:return: list,all names of defined dim style
+		"""
+		dimnames=[]
+		for i in range(self.DimStyleNumbers):
+			dimnames.append(self.DimStyles.Item(i).Name)
+		return dimnames
 	@property 
 	def DimStyle0(self):
 		"""
@@ -1169,7 +1190,7 @@ class Autocad:
 	@property 
 	def DimStyles(self):
 		"""
-		return all dimstyles
+		return dimstyles object
 		"""
 		return self.acad.ActiveDocument.DimStyles
 	@property 
@@ -1177,8 +1198,27 @@ class Autocad:
 		"""
 		return a dim style set by system variable
 		"""
-		return self.acad.ActiveDocument
+		return self.acad.ActiveDocument.ActiveDimStyle
 
+	def GetDimStyle(self,dimname):
+		"""
+		:param dimname:str or int,the name or index of dim style
+		:return:specified dim style object
+		"""
+		if isinstance(dimname,str):
+			index=self.DimStyleNames.index(dimname)
+		elif isinstance(dimname,int):
+			index=dimname
+		else:
+			raise PycomError('dimname in GetDimStyle is wrong')
+		return self.DimStyles.Item(index)
+	def ActivateDimStyle(self,dimname):
+		"""
+		Activate DimStyle dimname
+		:param dimname: str or int,the name or index of dim style
+		:return: None.
+		"""
+		self.acad.ActiveDocument.ActiveDimStyle=self.GetDimStyle(dimname)
 	"""
 	Utility object
 	"""
