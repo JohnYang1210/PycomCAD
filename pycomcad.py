@@ -174,7 +174,7 @@ class Autocad:
 		:param file: int,or str,the number of index or the name of file targeted to be set as the current file
 		"""
 		if isinstance(file,str):
-			index = self.OpenedFilenames.index(name)
+			index = self.OpenedFilenames.index(file)
 		elif isinstance(file,int):
 			index=file
 		else:
