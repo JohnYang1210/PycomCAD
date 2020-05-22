@@ -484,6 +484,14 @@ class Autocad:
 	Refer and select entity
 	"""
 
+	def Handle2Object(self,handle):
+		"""
+		handle:entities or its reference objects' handle.
+		return the object of specified handle
+		"""
+		return self.acad.ActiveDocument.HandleToObject(handle)
+	
+
 	def GetEntityByItem(self,i):
 		"""
 		Refere to entity by its index location
@@ -542,7 +550,7 @@ class Autocad:
 	PointsLists:a serial points(3D) defining polygon
 	FilterType,FilterData: DXF group code; filter type.
 
-	(5)object.SelectOnScreen()
+	(5)object.SelectOnScreen(filterType,filterData)
 	object:selection set
 	FilterType,FilterData: DXF group code; filter type.
 	"""
