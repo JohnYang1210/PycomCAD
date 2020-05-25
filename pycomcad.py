@@ -517,6 +517,9 @@ class Autocad:
 		>>>slt.SelectOnScreen(ft,fd) # select on screen
 		>>>slt.Erase() # Erase selected entity
 		>>>slt.Delete() # Delete selectionsets object
+		Using select method:
+		>>>slt=acad.GetSelectionSets('slt1')
+		>>>slt.Select(Mode=win32com.client.constants.acSelectionSetAll,FilterType=ft,FilterData=fd) # Attention about the keyword arguments
      
 		"""
 		return self.acad.ActiveDocument.SelectionSets.Add(setname)
