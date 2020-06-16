@@ -316,6 +316,17 @@ class Autocad:
 		"""
 		arc=self.acad.ActiveDocument.ModelSpace.AddArc(centerPnt,radius,AngleDtoR(startAngle),AngleDtoR(endAngle))
 		return arc 
+	
+	def AddTable(self,InsertionPoint,NumRows,NumColumns,RowHeight,ColWidth):
+		"""
+		add a table in ModelSpace.
+		InsertionPoint:Apoint type.
+		NumRows:The number of rows in the table. 
+		NumColumns:The number of columns in the table.
+		RowHeight :The height of the rows in the table. 
+		ColWidth :The width of the columns in the table. 
+		"""
+		return self.acad.ActiveDocument.ModelSpace.AddTable(InsertionPoint,NumRows,NumColumns,RowHeight,ColWidth)
 
 	def AddSpline(self,*fitPoints,startTan=None,endTan=None):
 		"""

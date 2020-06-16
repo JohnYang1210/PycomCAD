@@ -5,7 +5,7 @@
 
    In terms of the secondary development of Autocad in Engineering field, VB or Lisp may be choosen as the common and traditional programming language.However,Python shall play an important role as for this task with the power of easy-to-write and the elegance of conciseness, and Pycomcad exactly acts as an convenient way to get the API of Autocad.
     
-   The base modules of Pycomcad are win32com and pythoncom,and win32com is responsible for get the interface of Autocad including some constant values in the module level,pythoncom deals with the data type conversion.The methodology of Pycomcad is very easy and that is wrapping up calling functions of the multilayers to be single class methods or properties so that makes API function easier to memory and save your keystroke.
+   The base modules of Pycomcad are win32com and pythoncom,and win32com is responsible for getting the interface of Autocad including some constant values in the module level,pythoncom deals with the data type conversion.The methodology of Pycomcad is very easy and that is wrapping up calling functions of the multilayers to be single class methods or properties so that makes API function easier to memory and save your keystroke.
     
    When refering to the methods or properties of specific created entity in Autocad,It's better to look up `acadauto.chm` provided in this repository.
 
