@@ -1282,7 +1282,6 @@ class Autocad:
 			64: Ignores Z coordinate of 3D points (GetDistance method only). This option ignores the Z coordinate of 3D points returned by the GetDistance method, so an application can ensure this function returns a 2D distance. 
 			128: Allows arbitrary input—whatever the user types. 
 		keywords:strings,such as 'width length height'
-
 		"""
 		self.acad.ActiveDocument.Utility.InitializeUserInput(bits,keywords)
 	def GetKeyword(self,prompt=''):
@@ -1301,6 +1300,12 @@ class Autocad:
 		Gets a real (double) value from the user.
 		"""
 		return self.acad.ActiveDocument.Utility.GetReal(prompt)
+
+	def GetInteger(self,prompt=''):
+		"""
+		Gets an integer value from the user.
+		"""
+		return self.acad.ActiveDocument.Utility.GetInteger(prompt)
 
 # 	def GetSelectionSets(self,string):
 # 		"""
