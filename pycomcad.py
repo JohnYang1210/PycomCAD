@@ -358,10 +358,10 @@ class Autocad:
 		(5)innerLoop is the same with outLoop
 		"""
 		hatch=self.acad.ActiveDocument.ModelSpace.AddHatch(patternType,patterName,associative)
-		out=VtObject(outLoopTuple)
+		out=VtObject(*outLoopTuple)
 		hatch.AppendOuterLoop(out)
 		if innerLoopTuple:
-			inn=VtObject(innerLoopTuple)
+			inn=VtObject(*innerLoopTuple)
 			hatch.AppendInnerLoop(inn)
 		hatch.Evaluate()
 
