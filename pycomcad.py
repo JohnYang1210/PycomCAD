@@ -364,6 +364,7 @@ class Autocad:
 			inn=VtObject(*innerLoopTuple)
 			hatch.AppendInnerLoop(inn)
 		hatch.Evaluate()
+		return hatch 
 
 	def AboutEntityObject(self):
 
