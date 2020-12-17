@@ -75,6 +75,15 @@ class Autocad:
 	"""
 	Application
 	"""
+	@property 
+	def Space(self):
+		"""
+		Automatically deciding the active layout is ModelSpace or PaperSpace.
+		"""
+		if self.acad.ActiveDocument.ActiveLayout.ModelType:
+			return self.acad.ActiveDocument.ModelSpace
+		else:
+			return self.acad.ActiveDocument.PaperSpace
 	@property
 	def IsEarlyBind(self):
 		"""
@@ -96,6 +105,35 @@ class Autocad:
 		return Autocad Application path
 		"""
 		return self.acad.Path
+	
+	"""
+	Layouts
+	"""
+	@property 
+	def LayoutNames(self):
+		layoutnames={}
+		for i in range(self.acad.ActiveDocument.Layouts.Count):
+			layoutnames[self.acad.ActiveDocument.Layouts.Item(i).Name]=i
+		return layoutnames
+	def EnterLayout(self,name_or_index):
+		"""
+		enter layout, so the active layout may become model,or one paperspace.
+		name_or_index:string,the name of layout;int,the index of layout
+		For example:
+		>>>acad.EnterLayout('model') #Enter the modelSpace
+		>>>acad.EnterLayout('onePaperSpace') #Enter the paperSpace named onePaperSpace
+		>>>acad.EnterLayout('notExist') # Will raise an error
+		"""
+		if isinstance(name_or_index,int):
+			self.acad.ActiveDocument.ActiveLayout=self.acad.ActiveDocument.Layouts.Item(name_or_index)
+		if isinstance(name_or_index,str):
+			if name_or_index in ['Model','模型']:
+				self.acad.ActiveDocument.ActiveSpace=win32com.client.constants.acModelSpace
+				return None 
+			index=self.LayoutNames.get(name_or_index,-1)
+			self.acad.ActiveDocument.ActiveLayout=self.acad.ActiveDocument.Layouts.Item(index)
+			return None 
+
 	"""
 	System variable
 	"""
@@ -285,14 +323,14 @@ class Autocad:
 		"""
 		apoint shall be got through Apoint function
 		"""
-		point=self.acad.ActiveDocument.ModelSpace.AddPoint(apoint)
+		point=self.Space.AddPoint(apoint)
 		return point 
 
 	def AddLine(self,startPoint,endPoint):
 		"""
 		The type of startPoint and endPoint are both Apoint
 		"""
-		line=self.acad.ActiveDocument.ModelSpace.AddLine(startPoint,endPoint)
+		line=self.Space.AddLine(startPoint,endPoint)
 		return line 
 
 	def AddLwpline(self,*vertexCoord):
@@ -300,21 +338,21 @@ class Autocad:
 		LightWeight Poly line, this method requires the group of 2D vertex coordinates(that is x,y),
 		This method is recommended to draw line
 		"""
-		lwpline=self.acad.ActiveDocument.ModelSpace.AddLightWeightPolyline(VtVertex(*vertexCoord))
+		lwpline=self.Space.AddLightWeightPolyline(VtVertex(*vertexCoord))
 		return lwpline
 
 	def AddCircle(self,centerPnt,radius):
 		"""
 		add a circle, centerPnt's type is Apoint
 		"""
-		circle=self.acad.ActiveDocument.ModelSpace.AddCircle(centerPnt,radius)
+		circle=self.Space.AddCircle(centerPnt,radius)
 		return circle
 
 	def AddArc(self,centerPnt,radius,startAngle,endAngle):
 		"""
 		add an arc, startAngle and endAngle are both in the form of degree
 		"""
-		arc=self.acad.ActiveDocument.ModelSpace.AddArc(centerPnt,radius,AngleDtoR(startAngle),AngleDtoR(endAngle))
+		arc=self.Space.AddArc(centerPnt,radius,AngleDtoR(startAngle),AngleDtoR(endAngle))
 		return arc 
 	
 	def AddTable(self,InsertionPoint,NumRows,NumColumns,RowHeight,ColWidth):
@@ -326,21 +364,21 @@ class Autocad:
 		RowHeight :The height of the rows in the table. 
 		ColWidth :The width of the columns in the table. 
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddTable(InsertionPoint,NumRows,NumColumns,RowHeight,ColWidth)
+		return self.Space.AddTable(InsertionPoint,NumRows,NumColumns,RowHeight,ColWidth)
 
 	def AddSpline(self,*fitPoints,startTan=None,endTan=None):
 		"""
 		fitpoints are array of 3D coordinates of points,such as (1,2,3,4,5,6)
 		startTan is the starting vector which is the type of Apoint, and the same is endTan.
 		"""
-		spline=self.acad.ActiveDocument.ModelSpace.addSpline(VtVertex(*fitPoints),startTan,endTan)
+		spline=self.Space.addSpline(VtVertex(*fitPoints),startTan,endTan)
 		return spline
 
 	def AddEllipse(self,centerPnt,majorAxis,radiusRatio):
 		"""
 		add ellipse, the type of majorAxis is Apoint
 		"""
-		ellipse=self.acad.ActiveDocument.ModelSpace.addEllipse(centerPnt,majorAxis,radiusRatio)
+		ellipse=self.Space.addEllipse(centerPnt,majorAxis,radiusRatio)
 		return ellipse
 
 	def AddHatch(self,patternType,patterName,associative,outLoopTuple,innerLoopTuple=None):
@@ -357,7 +395,7 @@ class Autocad:
 		line3).
 		(5)innerLoop is the same with outLoop
 		"""
-		hatch=self.acad.ActiveDocument.ModelSpace.AddHatch(patternType,patterName,associative)
+		hatch=self.Space.AddHatch(patternType,patterName,associative)
 		out=VtObject(*outLoopTuple)
 		hatch.AppendOuterLoop(out)
 		if innerLoopTuple:
@@ -508,7 +546,7 @@ class Autocad:
 		"""
 		Refere to entity by its index location
 		"""
-		return self.acad.ActiveDocument.ModelSpace.Item(i)
+		return self.Space.Item(i)
 
 	def GetSelectionSets(self,setname):
 		"""
@@ -762,7 +800,7 @@ class Autocad:
 		insertPnt:Apoint type,the insert point in the process of block insertion.
 		blockName:string, the inserted block name which has been created
 		"""
-		return self.acad.ActiveDocument.ModelSpace.InsertBlock(insertPnt,blockName,Xscale,Yscale,Zscale,Rotation)
+		return self.Space.InsertBlock(insertPnt,blockName,Xscale,Yscale,Zscale,Rotation)
 
 	"""
 	User-defined coordinate system
@@ -784,7 +822,6 @@ class Autocad:
 	object:Drawing entity,such as Arc,Line,LightweithPolyline,Spline,etc.
 	transformationMatrix:4*4 Double array, need to be passed to ArrayTransform() method to be the required type 
 	"""
-
 	def CreateUCS(self,origin,xAxisPnt,yAxisPnt,csName):
 		"""
 		origin:Apoint type,origin point of the new CS
@@ -979,7 +1016,7 @@ class Autocad:
 		insertPnt:Apoint type,insert point
 		height:the text height
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddText(textString,insertPnt,height)
+		return self.Space.AddText(textString,insertPnt,height)
 	"""
 	MutiText
 	"""
@@ -990,7 +1027,7 @@ class Autocad:
 		insertPnt:Apoint type
 		width:float,The width of the MText bounding box
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddMText(insertPnt,width,textString)
+		return self.Space.AddMText(insertPnt,width,textString)
 
 	"""
 	Dimension and Tolerance
@@ -1109,7 +1146,7 @@ class Autocad:
 		extPnt2:Apoint type,the 3D WCS coordinates specifying the second endpoint of the extension line
 		textPosition:Apoint type,the 3D WCS coordinates specifying the text position
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddDimAligned(extPnt1,extPnt2,textPosition)
+		return self.Space.AddDimAligned(extPnt1,extPnt2,textPosition)
 	def AddDimRotated(self,xlPnt1,xlPnt2,dimLineLocation,rotAngle):
 		"""
 		Creates a rotated linear dimension
@@ -1117,7 +1154,7 @@ class Autocad:
 		xlPnt2:Apoint type,the 3D WCS coordinates specifying the first endpoint of the extension line
 		rotAngle:Double,The angle, in radians, of rotation displaying the linear dimension
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddDimRotated(xlPnt1,xlPnt2,dimLineLocation,rotAngle)
+		return self.Space.AddDimRotated(xlPnt1,xlPnt2,dimLineLocation,rotAngle)
 	def AddDimRadial(self,center,chordPnt,leaderLength):
 		"""
 		Creates a radial dimension for the selected object at the given location
@@ -1125,7 +1162,7 @@ class Autocad:
 		chordPnt:Apoint type,The 3D WCS coordinates specifying the point on the circle or arc to attach the leader line
 		leaderLength:double,The positive value representing the length from the ChordPoint to the annotation text or dogleg
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddDimRadial(center,chordPnt,leaderLength)
+		return self.Space.AddDimRadial(center,chordPnt,leaderLength)
 	def AddDimDiametric(self,chordPnt,farChordPnt,leaderLength):
 		"""
 		Creates a diametric dimension for a circle or arc given the two points on the diameter and the length of the leader line
@@ -1135,7 +1172,7 @@ class Autocad:
 		using obj.Fit=win32com.client.constants.acTextAndArrows can make the arrow and text inside the circle
 
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddDimDiametric(chordPnt,farChordPnt,leaderLength)
+		return self.Space.AddDimDiametric(chordPnt,farChordPnt,leaderLength)
 	def AddDimAngular(self,vertex,firstPnt,secondPnt,textPnt):
 		"""
 		Creates an angular dimension for an arc, two lines, or a circle
@@ -1144,7 +1181,7 @@ class Autocad:
 		secondPnt,Apoint type,The 3D WCS coordinates specifying the point through which the second extension line passes
 		textPnt,Apoint type,The 3D WCS coordinates specifying the point at which the dimension text is to be displayed
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddDimAngular(vertex,firstPnt,secondPnt,textPnt)
+		return self.Space.AddDimAngular(vertex,firstPnt,secondPnt,textPnt)
 	def AddDimOrdinate(self,definitionPnt,leaderPnt,axis):
 		"""
 		Creates an ordinate dimension given the definition point and the leader endpoint
@@ -1152,7 +1189,7 @@ class Autocad:
 		leaderPnt,Apoint type,The 3D WCS coordinates specifying the endpoint of the leader. This will be the location at which the dimension text is displayed
 		axis,Boolean,True: Creates an ordinate dimension displaying the X axis value;False: Creates an ordinate dimension displaying the Y axis value
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddDimOrdinate(definitionPnt,leaderPnt,axis)
+		return self.Space.AddDimOrdinate(definitionPnt,leaderPnt,axis)
 	def AddLeader(self,*pntArray,annotation=None,type=None):
 		"""
 		Creates a leader line based on the provided coordinates or adds a new leader cluster to the MLeader object
@@ -1167,7 +1204,7 @@ class Autocad:
 		>>>import win32com.client
 		>>>acad.AddLeader(0,0,0,30,30,0,annotation=a,type=win32com.client.constants.acLineWithArrow)
 		"""
-		return self.acad.ActiveDocument.ModelSpace.AddLeader(VtVertex(*pntArray),annotation,type)
+		return self.Space.AddLeader(VtVertex(*pntArray),annotation,type)
 
 	"""
 	Dimension style object
@@ -1209,7 +1246,7 @@ class Autocad:
 		return created dimension style object whose index is 0 in modelspace,
 
 		"""
-		return self.acad.ActiveDocument.ModelSpace(0)
+		return self.Space(0)
 	@property 
 	def DimStyles(self):
 		"""
