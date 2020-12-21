@@ -570,7 +570,14 @@ class Autocad:
 		Using select method:
 		>>>slt=acad.GetSelectionSets('slt1')
 		>>>slt.Select(Mode=win32com.client.constants.acSelectionSetAll,FilterType=ft,FilterData=fd) # Attention about the keyword arguments
-     
+		(3) Using SelectByPolygon method to automatically select entity
+		>>>pnt=acad.GetPoint()
+		>>>pnt1=acad.GetPoint()
+		>>>pnt2=acad.GetPoint()
+		>>>pnt3=acad.GetPoint()  # select 4 points
+		>>>c=list(pnt)+list(pnt1)+list(pnt2)+list(pnt3)
+		>>>slt=acad.GetSelectionSets('test2')
+		>>>slt.SelectByPolygon(Mode=win32com.client.constants.acSelectionSetWindowPolygon,PointsList=VtVertex(*c))
 		"""
 		return self.acad.ActiveDocument.SelectionSets.Add(setname)
 
