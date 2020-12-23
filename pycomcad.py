@@ -259,7 +259,11 @@ class Autocad:
 			return self.acad.ActiveDocument.CopyObjects(obj)
 		else:
 			try:
-				newOwner=self.GetOpenedFile(Owner).ModelSpace
+				newOwnerDoc=self.GetOpenedFile(Owner)   
+				if newOwnerDoc.ActiveLayout.ModelType:  # make deepclone method can be applied to paperspace or modelspace automatically
+					newOwner=newOwnerDoc.ModelSpace
+				else:
+					newOwner=newOwnerDoc.PaperSpace
 			except:
 				raise PycomError('File %s is not opened'% Owner)
 			return self.acad.ActiveDocument.CopyObjects(obj,newOwner,IDPairs)
