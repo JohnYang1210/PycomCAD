@@ -1332,7 +1332,7 @@ class Autocad:
 		"""
 		self.acad.ActiveDocument.ActiveDimStyle=self.GetDimStyle(dimname)
 	"""
-	Utility object
+	Utility object method
 	"""
 	def GetString(self,hasSpaces,Prompt=''):
 		"""
@@ -1413,22 +1413,29 @@ class Autocad:
 			string.
 		"""
 		self.acad.ActiveDocument.Utility.Prompt(message)
+	
+	"""
+	Preferences object
+	There are 9 sub-objects of preferences:
+		(1) Display--->acad.Preferences.Display
+		(2)Drafting--->acad.Preferences.Drafting
+		(3)Files--->acad.Preferences.Files
+		(4)OpenSave--->acad.Preferences.OpenSave
+		(5)Output--->acad.Preferences.Output
+		(6)Profiles--->acad.Preferences.Profiles
+		(7)Selection--->acad.Preferences.Selection
+		(8)System--->acad.Preferences.System
+		(9)User--->acad.Preferences.User
 
-# 	def GetSelectionSets(self,string):
-# 		"""
-# 				:param string: name of selection set
-# 				:return: SelectionSets object default name is '0'
-# 				For example:
-# 				>>>ft=[0, -4, 40, 8]  # define filter type
-# 				>>>fd=['Circle', '>=', 5, '0'] #define filter data
-# 				>>>ft=VtInt(ft) # data type convertion
-# 				>>>fd=VtVariant(fd) #data type convertion
-# 				>>>slt=acad.GetSelectionSets() # Create selectionset object
-# 				>>>slt.SelectOnScreen(ft,fd) # select on screen
-# 				>>>slt.Erase() # Erase selected entity
-# 				>>>slt.Delete() # Delete selectionsets object
-# 				"""
-# 		return self.acad.ActiveDocument.SelectionSets.Add (string)
+	"""
+	@property
+	def Preferences(self):
+		"""
+		return preferences object
+		"""
+		return self.acad.Preferences
+
+
 
 if __name__=='__main__':
 	table={'dimclrd':62,'dimdlI':0,'dimclre':62,
@@ -1444,6 +1451,7 @@ if __name__=='__main__':
 	c2=acad.AddCircle(p1,5)
 	acad.ZoomExtents()
 	acad.AddHatch(1,'SOLID',True,(c1,),(c2,))
+	acad.Prompt('Hello from pycomcad!')
 
 
 
