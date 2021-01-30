@@ -1405,6 +1405,14 @@ class Autocad:
 		Gets an integer value from the user.
 		"""
 		return self.acad.ActiveDocument.Utility.GetInteger(prompt)
+	
+	def Prompt(self,message):
+		"""
+		Displays a prompt on the command line.
+		message:
+			string.
+		"""
+		self.acad.ActiveDocument.Utility.Prompt(message)
 
 # 	def GetSelectionSets(self,string):
 # 		"""
