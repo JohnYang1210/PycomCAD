@@ -1334,6 +1334,15 @@ class Autocad:
 	"""
 	Utility object
 	"""
+	def GetString(self,hasSpaces,Prompt=''):
+		"""
+		hasSpaces:
+			0:input string shall not has empty char('') meaning input has been done;
+			1:input string can have empty char(''), and the 'Entery' keystroke means the input process has been done.
+		Prompt:
+			string,default to None
+		"""
+		return self.acad.ActiveDocument.Utility.GetString(hasSpaces,Prompt)
 	def AngleFromXAxis(self,pnt1,pnt2):
 		"""
 		Gets the angle of a line from the X axis
