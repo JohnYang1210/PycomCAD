@@ -175,6 +175,14 @@ class Autocad:
 		:return:
 		"""
 		self.acad.ActiveDocument.Close()
+	
+	def PurgeAll(self):
+		"""
+		Removes unused named references such as unused blocks or layers from the document.
+		This method is the equivalent of entering purge at the Command prompt, selecting the 
+		All option, and then choosing Yes to the "Purge Everything?" prompt. 
+		"""
+		self.acad.ActiveDocument.PurgeAll()
 
 	@property
 	def OpenedFilenames(self):
