@@ -100,6 +100,7 @@ class Autocad:
 		ExePath=os.path.split(sys.executable)[0]
 		MakePyPath=os.path.join(ExePath,makepyPath)
 		os.execl(sys.executable,'python',MakePyPath)
+	@property
 	def AppPath(self):
 		"""
 		return Autocad Application path
