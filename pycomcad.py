@@ -335,7 +335,7 @@ class Autocad:
 		"""
 		self.acad.ActiveDocument.ActiveViewport.SnapOn=boolean
 		self.acad.ActiveDocument.ActiveViewport.SnapOn=self.acad.ActiveDocument.ActiveViewport.SnapOn
-
+	
 
 	"""
 	CAD entity Object drawing
@@ -425,6 +425,13 @@ class Autocad:
 			hatch.AppendInnerLoop(inn)
 		hatch.Evaluate()
 		return hatch 
+	
+	def AddSolid(self,pnt1,pnt2,pnt3,pnt4):
+		"""
+		Creates a 2D solid polygon. 
+		pnt1,pnt2,pnt3,pnt4:Apoint type
+		"""
+		return self.Space.AddSolid(pnt1,pnt2,pnt3,pnt4)
 
 	def AboutEntityObject(self):
 
