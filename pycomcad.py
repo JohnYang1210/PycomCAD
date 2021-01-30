@@ -334,8 +334,8 @@ class Autocad:
 		snap-on
 		"""
 		self.acad.ActiveDocument.ActiveViewport.SnapOn=boolean
-		self.acad.ActiveDocument.ActiveViewport.SnapOn=self.acad.ActiveDocument.ActiveViewport.SnapOn
-	
+		self.acad.ActiveDocument.ActiveViewport=self.acad.ActiveDocument.ActiveViewport
+		
 
 	"""
 	CAD entity Object drawing
