@@ -184,6 +184,15 @@ class Autocad:
 		"""
 		self.acad.ActiveDocument.PurgeAll()
 
+	def Regen(self,enum):
+		"""
+		Regenerates the entire drawing and recomputes the screen coordinates and view resolution for all objects.
+		enum:
+			0:Regenerates only the active viewport
+			1:Regenerates all viewports on the document
+		"""
+		self.acad.ActiveDocument.Regen(enum)
+
 	@property
 	def OpenedFilenames(self):
 		"""
