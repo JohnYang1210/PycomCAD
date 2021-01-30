@@ -1,5 +1,21 @@
 """
-Based on COM technology, this module provides an easy way to employ the second-development of Autocad
+Based on COM technology, this module provides an easy way to employ the second-development of Autocad.
+| AutoCAD Production | ProgID                   |
+| ------------- | ------------------------ |
+| AutoCAD 2004  | AutoCAD.Application.16   |
+| AutoCAD 2005  | AutoCAD.Application.16.1 |
+| AutoCAD 2006  | AutoCAD.Application.16.2 |
+| AutoCAD 2007  | AutoCAD.Application.17   |
+| AutoCAD 2008  | AutoCAD.Application.17.1 |
+| AutoCAD 2009  | AutoCAD.Application.17.2 |
+| AutoCAD 2010  | AutoCAD.Application.18   |
+| AutoCAD 2011  | AutoCAD.Application.18.1 |
+| AutoCAD2014   | AutoCAD.Application.19   |
+| AutoCAD2016   | AutoCAD.Application.20   |
+If your pc has multi-version of AutoCAD, and we want to operation on specific version, 
+`self.acad=win32com.client.Dispatch("Autocad.Application")` in this source code shall be replaced with the precise ProgID in the table above.
+For example, when we want to operation AutoCAD2016 specially when other version still exists on our PC, 
+we may modify the code as `self.acad=win32com.client.Dispatch("Autocad.Application.20")`
 """
 import pythoncom
 import win32com.client
