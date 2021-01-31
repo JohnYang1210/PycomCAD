@@ -122,6 +122,13 @@ class Autocad:
 		return Autocad Application path
 		"""
 		return self.acad.Path
+	def SendCommand(self,command):
+		"""
+		Sends a command string from script
+		for example, to draw a circle whose center is 0,0,0, and radius is 100
+		>>>acad.SendCommand('circle 0,0,0 100 ') #Please notice that there is a blank following 100, meaning the end of input
+		"""
+		self.acad.ActiveDocument.SendCommand(command)
 	
 	"""
 	Layouts
