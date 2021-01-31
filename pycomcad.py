@@ -140,6 +140,7 @@ class Autocad:
 		>>>acad.EnterLayout('model') #Enter the modelSpace
 		>>>acad.EnterLayout('onePaperSpace') #Enter the paperSpace named onePaperSpace
 		>>>acad.EnterLayout('notExist') # Will raise an error
+		>>>acad.EnterLayout(0) # Enter the modelSpace
 		"""
 		if isinstance(name_or_index,int):
 			self.acad.ActiveDocument.ActiveLayout=self.acad.ActiveDocument.Layouts.Item(name_or_index)
