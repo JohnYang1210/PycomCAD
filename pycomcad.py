@@ -361,6 +361,7 @@ class Autocad:
 		self.acad.ActiveDocument.ActiveViewport=self.acad.ActiveDocument.ActiveViewport
 		
 
+
 	"""
 	CAD entity Object drawing
 	"""
@@ -893,7 +894,7 @@ class Autocad:
 
 	def ActivateUCS(self,ucsObj):
 		"""
-		ucsObj: CS object
+		ucsObj: UCS object
 		"""
 		self.acad.ActiveDocument.ActiveUCS=ucsObj
 
@@ -924,6 +925,7 @@ class Autocad:
 		"""
 		self.acad.ActiveDocument.ActiveViewport.UCSIconOn=booleanOfUCSIcon
 		self.acad.ActiveDocument.ActiveViewport.UCSIconAtOrigin=booleanOfUCSatOrigin
+
 
 	"""
 	Text
