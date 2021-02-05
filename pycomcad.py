@@ -1364,9 +1364,15 @@ class Autocad:
 		"""
 		Gets the angle specified
 		"""
-		return self.acad.ActiveDocument.Utility.GetAngle(basePnt,prompt)
-	def GetPoint(self):
-		return self.acad.ActiveDocument.Utility.GetPoint()
+		return self.acad.ActiveDocument.Utility.GetAngle(Point=basePnt,Prompt=prompt)
+	def GetPoint(self,Point=None,Prompt=''):
+		"""
+		Gets the selected point
+		"""
+		if Point:
+			return self.acad.ActiveDocument.Utility.GetPoint(Point=Point,Prompt=Prompt)
+		else:
+			return self.acad.ActiveDocument.Utility.GetPoint(Prompt=Prompt)
 	def GetDistance(self,pnt='',prompt=''):
 		"""
 		Gets the point selected in AutoCAD
