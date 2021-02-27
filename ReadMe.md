@@ -344,7 +344,7 @@ Utility实际上就是与用户交互，比如用户输入字母，数字，做�
 
 ​		当我们通过pycomcad实现了某些自动化/自定义工作的功能后，如果需要频繁使用该程序，那么每次都直接运行脚本，显然有些繁琐，那么有没有办法可以从Autocad中直接调用写号的二次开发程序呢？
 
-​		答案是有的，目前可以通过打包程序为exe文件（Pyinstaller的简单可参考我的博文：https://www.cnblogs.com/johnyang/p/10868863.html），然后用lsp文件来调用打包的exe文件（不需要掌握lsp，很简单的一个语句），最后在Autocad中通过命令来调用该lsp文件就可以了。详见我的博文：https://www.cnblogs.com/johnyang/p/14415515.html
+​		答案是有的，目前可以通过打包程序为exe文件（Pyinstaller的简单使用可参考我的博文：https://www.cnblogs.com/johnyang/p/10868863.html ），然后用lsp文件来调用打包的exe文件（不需要掌握lsp，很简单的一个语句），最后在Autocad中通过命令来调用该lsp文件就可以了。详见我的博文：https://www.cnblogs.com/johnyang/p/14415515.html
 
 # 7 实战开发案例及不断升级...
 
