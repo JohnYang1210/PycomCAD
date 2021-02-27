@@ -3,9 +3,9 @@
 # PyComCAD介绍及开发方法
 
 ## 1.综述
-​		提到Autoca在工业界d的二次开发，VB或者Lisp可能作为常用的传统的编程语言。但是，Python语言简洁，优雅，学习门槛低，理应在Autocad二次开发中占有一席之地，加上Python丰富而强大的第三方库，更让Python对于Autocadf二次开发如虎添翼，使得快速开发出符合自身需求的强大功能成为可能。Pycomcad恰恰就是的获取Autocad API的接口库。
+​		提到Autoca在工业界的二次开发，VB或者Lisp可能作为常用的传统的编程语言。但是，Python语言简洁，优雅，学习门槛低，理应在Autocad二次开发中占有一席之地，加上Python丰富而强大的第三方库，更让Python对于Autocad二次开发任务如虎添翼，使得快速开发出符合工程师自身需求的功能成为可能。Pycomcad恰恰就是的获取Autocad API的接口库。
 
-​		Pycomcad的底层库是`win32com`和`pythoncom`，其中，win32com负责获取Autocad的接口，包括一些枚举值，pythoncom主要负责进行数据类型转换。Pycomcad设计理念非常的简单，就是把win32com中多层调用的函数或者属性包裹为一个函数，用以方便记忆调用以及减少敲码次数。
+​		Pycomcad的底层库是`win32com`和`pythoncom`，其中，win32com负责获取Autocad的接口，包括一些枚举值，pythoncom主要负责进行数据类型转换。Pycomcad设计理念非常的简单，就是把win32com中多层调用的函数或者属性包裹为一个函数，用以方便记忆调用以及减少敲码次数，而不用每次都按照AutoCAD对象模型树一层一层的调用。
 
 ​		当涉及到Autocad中特定对象的方法或者属性，建议查看本仓库下的`acadauto.chm`文件。
 
@@ -48,7 +48,7 @@ underLine.Offset(5) #向上偏移下划线
 acad.SaveAsFile(r'pycomcad.dwg')
 ```
 
-绘制的图形如下：
+绘制出如下图形：
 
 <img src="https://cdn.jsdelivr.net/gh/JohnYang1210/bloggitpic/img/20210226220039.png" alt="image-20210226220032506" style="zoom:50%;" />
 
@@ -56,13 +56,13 @@ acad.SaveAsFile(r'pycomcad.dwg')
 
 ### 4.1 指定特定版本
 
-​		如果个人电脑上装有多个版本的Autocad，而我们想针对特定版本的Autocad，只需要修改`pycomcad.py`中`win32com.client.Dsipatch`函数中的`ProgID`就可以了(比如要指定Autocad2016版本，只需要修改为`self.acad=win32com.client.Dispatch('AutoCAD.Application.20')`，本仓库默认为`Autocad.Application`:
+​		如果个人电脑上装有多个版本的Autocad，我们想针对特定版本的Autocad进行二次开发，只需要修改`pycomcad.py`中`win32com.client.Dsipatch`函数中的`ProgID`就可以了(比如要指定Autocad2016版本，只需要修改为`self.acad=win32com.client.Dispatch('AutoCAD.Application.20')`，本仓库默认为`Autocad.Application`:
 
 ```python
 class Autocad:
 	def __init__(self):
 		try:
-			self.acad=win32com.client.Dispatch(`ProgID`)
+			self.acad=win32com.client.Dispatch(`ProgID`)  #修改此处的ProgID
 			self.acad.Visible=True 
 		except:
 			Autocad.__init__(self)
@@ -87,7 +87,7 @@ Autocad版本号与ProgID对应关系表如下：
 
 ### 4.2 模块级函数
 
-* Apoint :点函数，传入x,y,z（可选，默认为0），其返回值作为其他函数的输入值。如在上面的例子中，`AddLine`与`AddCircle`方法均需输入Apoint函数的返回值。
+* Apoint :点函数，传入x,y,z（可选，默认为0），其返回值作为其他函数的输入值。如在上面的例子中，`AddLine`与`AddCircle`方法均需输入Apoint函数的返回值
 * ArrayTransform:将任何型式的数组转换为所需要的实数型数组，多用于pycomcad模块内部使用
 * VtVertex：将分散的数据转换为实数型数组，多用于pycomcad模块内部使用
 * VtFloat:将仅有数字的列表转换为实数型列表
@@ -95,7 +95,7 @@ Autocad版本号与ProgID对应关系表如下：
 * VtVariant:将变量型列表转换为变量型列表
 * AngleDtoR:将°转换为radian，也可以用math.radians
 * AngleRtoD:将radian转换为°，也可以用math.degrees
-* FilterType，FilterData，过滤规则中将DXF码传入，也可以用VtInt(ft),VtVariant(fd)，详细参见`GetSelectionSets`方法说明。
+* FilterType，FilterData，过滤规则中将DXF码传入，也可以用VtInt(ft),VtVariant(fd)，详细参见`GetSelectionSets`方法说明
 
 有关数据转换更详细的信息见： https://www.cnblogs.com/johnyang/p/12617881.html .
 
@@ -103,7 +103,7 @@ Autocad版本号与ProgID对应关系表如下：
 
 ​		在上面例子中，我们用到了`acad.IsEarlybind`属性，以及`acad.TurnOnEarlyBind`方法，那么什么是early-bind模式，什么是lazy-bind模式呢？
 
-​		默认地，pycomcad是lazy-bind模式，意思就是pycomcad对于特定的对象，比如线，圆等的方法，属性，以及常量枚举值，事先是不知道的，而early-bind模式下，pycomcad就提前知道了特定的对象的类型，方法，属性。实际上，这对于我们进行二次开发是有比较大的影响的，因为有时候我们需要知道选中的对象到底是什么样的类型，然后根据其类型，进行不同的操作。比如，对于early-bind模式，pycomcad能识别`win32com.client.constants.acRed`枚举值，而lazy-bind模式下，不能对其进行识别。通常建议把early-bind模式打开。
+​		默认地，pycomcad是lazy-bind模式，意思就是pycomcad对于特定的对象，比如线，圆等的方法，属性，以及常量枚举值，事先是不知道的，而early-bind模式下，pycomcad就提前知道了特定的对象的类型，方法，属性。实际上，这对于我们进行二次开发是有比较大的影响的，因为有时候我们需要知道选中的对象到底是什么样的类型，然后根据其类型，进行不同的操作。比如，对于early-bind模式，pycomcad能识别`win32com.client.constants.acRed`枚举值，而lazy-bind模式下，不能对其进行识别。建议把early-bind模式打开。
 
 ​		Autocad对象，比如它是`acad`，它的`IsEarlyBind`属性可以判断目前Autocad的模式是哪一种，如果是earlyy-bind模式，则返回`True`,否则返回`False`，如果是lazy-bind，那么可以调用`TrunOnEarlyBind()`方法来转变为Early-bind模式。
 
@@ -325,7 +325,7 @@ Utility实际上就是与用户交互，比如用户输入字母，数字，做�
 
 # 5 与Pycomcad一起使用的第三方库
 
-​		Python具备丰富而强大的第三方库，这也使快速开发出符合特定需求功能的Autocad二次开发程序成为可能。理论上，无法完全穷举出所有与Pycomcad一起使用的第三方库，因为特定需求本身就蕴含了无限可能，面对同一需求，实现的方法也不尽相同，使用的其他第三方库也不一样，下面列举出我自己在实际开发工作中常用到的其他第三方库，仅供参考。
+​		Python具备丰富而强大的第三方库，这也使快速开发出符合特定需求功能的Autocad二次开发程序成为可能。理论上，我们无法完全穷举出所有与Pycomcad一起使用的第三方库，因为特定需求本身就蕴含了无限可能，面对同一需求，实现的方法也不尽相同，使用的其他第三方库也不一样，下面列举出我自己在实际开发工作中常用到的其他第三方库，仅供参考。
 
 | 第三方库  | 作用                                                         |
 | --------- | ------------------------------------------------------------ |
@@ -342,13 +342,13 @@ Utility实际上就是与用户交互，比如用户输入字母，数字，做�
 
 # 6 从Autocad中调用二次开发程序
 
-​		当我们通过pycomcad实现了某些自动化/自定义工作的功能后，如果频繁需要使用该程序，那么每次都直接运行脚本，显然有些繁琐，那么有没有办法可以从Autocad中直接调用写号的二次开发程序呢？
+​		当我们通过pycomcad实现了某些自动化/自定义工作的功能后，如果需要频繁使用该程序，那么每次都直接运行脚本，显然有些繁琐，那么有没有办法可以从Autocad中直接调用写号的二次开发程序呢？
 
-​		答案是有的，目前可以通过打包程序为exe文件，然后用lsp文件来调用打包的exe文件（不需要掌握lsp，很简单的一个语句），最后在Autocad中通过命令来调用该lsp文件就可以了。详见博文：https://www.cnblogs.com/johnyang/p/14415515.html
+​		答案是有的，目前可以通过打包程序为exe文件（Pyinstaller的简单可参考我的博文：https://www.cnblogs.com/johnyang/p/10868863.html），然后用lsp文件来调用打包的exe文件（不需要掌握lsp，很简单的一个语句），最后在Autocad中通过命令来调用该lsp文件就可以了。详见我的博文：https://www.cnblogs.com/johnyang/p/14415515.html
 
 # 7 实战开发案例及不断升级...
 
-​		 随着实际工作中遇到的开发需求越来越多，PycomCAD也在不断的升级中。如果你对该项目有任何的兴趣，可以clone它，尝试将它应用到实际工作中去。如果你发现有价值的功能需要被添加到PycomCAD中，可以pull request它，或者通过邮箱联系我：`1574891843@qq.com`。让我们一起携手，把PycomCAD打造的更为健壮，强大！
+​		 随着实际工作中遇到的开发需求越来越多，PycomCAD也在不断的升级中。如果你对该项目有任何的兴趣，可以clone它，尝试将它应用到实际工作中去，给本项目打个star。如果你发现有价值的功能需要被添加到PycomCAD中，可以pull request它，或者通过邮箱联系我：`1574891843@qq.com`。让我们一起携手，把PycomCAD打造的更为健壮，强大！
 
 ​		实战开发程序可参考 https://github.com/JohnYang1210/DesignWorkTask.
 
