@@ -3,11 +3,11 @@
 # PyComCAD介绍及开发方法
 
 ## 1.综述
-​		提到Autocad在工业界的二次开发，VB或者Lisp可能作为常用的传统的编程语言。但是，Python语言简洁，优雅，学习门槛低，理应在Autocad二次开发中占有一席之地，加上Python丰富而强大的第三方库，更让Python对于Autocad二次开发任务如虎添翼，使得快速开发出符合工程师自身需求的功能成为可能。Pycomcad恰恰就是的获取Autocad API的接口库。
+​		提到Autocad在工业界的二次开发，VB或者Lisp可能作为常用的传统的编程语言。但是，Python语言简洁，优雅，学习门槛低，理应在Autocad二次开发中占有一席之地，加上Python丰富而强大的第三方库，更让Python对于Autocad二次开发任务如虎添翼，使得快速开发出符合工程师自身需求的功能成为可能。Pycomcad恰恰就是获取Autocad API的接口库。
 
 ​		Pycomcad的底层库是`win32com`和`pythoncom`，其中，win32com负责获取Autocad的接口，包括一些枚举值，pythoncom主要负责进行数据类型转换。Pycomcad设计理念非常的简单，就是把win32com中多层调用的函数或者属性包裹为一个函数，用以方便记忆调用以及减少敲码次数，而不用每次都按照AutoCAD对象模型树一层一层的调用。
 
-​		当涉及到Autocad中特定对象的方法或者属性，建议查看本仓库下的`acadauto.chm`文件。
+​		当涉及到Autocad中特定对象的方法或者属性，比如已创建的圆，块对象有哪些属性及方法？可以查看本仓库下的`acadauto.chm`文件。
 
 ##  2.底层库安装
 
@@ -105,9 +105,9 @@ Autocad版本号与ProgID对应关系表如下：
 
 ​		默认地，pycomcad是lazy-bind模式，意思就是pycomcad对于特定的对象，比如线，圆等的方法，属性，以及常量枚举值，事先是不知道的，而early-bind模式下，pycomcad就提前知道了特定的对象的类型，方法，属性。实际上，这对于我们进行二次开发是有比较大的影响的，因为有时候我们需要知道选中的对象到底是什么样的类型，然后根据其类型，进行不同的操作。比如，对于early-bind模式，pycomcad能识别`win32com.client.constants.acRed`枚举值，而lazy-bind模式下，不能对其进行识别。建议把early-bind模式打开。
 
-​		Autocad对象，比如它是`acad`，它的`IsEarlyBind`属性可以判断目前Autocad的模式是哪一种，如果是earlyy-bind模式，则返回`True`,否则返回`False`，如果是lazy-bind，那么可以调用`TrunOnEarlyBind()`方法来转变为Early-bind模式。
+​		Autocad对象，比如它是`acad`，它的`IsEarlyBind`属性可以判断目前Autocad的模式是哪一种，如果是early-bind模式，则返回`True`,否则返回`False`，如果是lazy-bind，那么可以调用`TrunOnEarlyBind()`方法来转变为Early-bind模式。
 
-​		有关Early-bin和Lazy-bind模式的信息，详见我的博文：https://www.cnblogs.com/johnyang/p/12521301.html
+​		有关Early-bind和Lazy-bind模式的信息，详见我的博文：https://www.cnblogs.com/johnyang/p/12521301.html
 
 ## 4.4 模块的主要方法及属性
 
