@@ -803,7 +803,7 @@ class Autocad:
 		"""
 		TrueorFalse:Boolean, determining whether the lineweight be shown or not
 		"""
-		self.acad.ActiveDocument.Preferences.LineWeightDisplay(TrueorFalse)
+		self.acad.ActiveDocument.Preferences.LineWeightDisplay=TrueorFalse
 	@property
 	def Linetypes(self):
 		"""
@@ -1381,7 +1381,7 @@ class Autocad:
 		if not pnt:
 			return self.acad.ActiveDocument.Utility.GetDistance(ArrayTransform(self.GetPoint()),prompt)
 		else:
-			return self.self.acad.ActiveDocument.Utility.GetDistance(pnt,prompt)
+			return self.acad.ActiveDocument.Utility.GetDistance(pnt,prompt)
 	def InitializeUserInput(self,bits,keywords):
 		"""
 		Before using GetKeyword method,this method has to be used to limit the user-input forms , and this method
