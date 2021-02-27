@@ -3,7 +3,7 @@
 # PyComCAD介绍及开发方法
 
 ## 1.综述
-​		提到Autoca在工业界的二次开发，VB或者Lisp可能作为常用的传统的编程语言。但是，Python语言简洁，优雅，学习门槛低，理应在Autocad二次开发中占有一席之地，加上Python丰富而强大的第三方库，更让Python对于Autocad二次开发任务如虎添翼，使得快速开发出符合工程师自身需求的功能成为可能。Pycomcad恰恰就是的获取Autocad API的接口库。
+​		提到Autocad在工业界的二次开发，VB或者Lisp可能作为常用的传统的编程语言。但是，Python语言简洁，优雅，学习门槛低，理应在Autocad二次开发中占有一席之地，加上Python丰富而强大的第三方库，更让Python对于Autocad二次开发任务如虎添翼，使得快速开发出符合工程师自身需求的功能成为可能。Pycomcad恰恰就是的获取Autocad API的接口库。
 
 ​		Pycomcad的底层库是`win32com`和`pythoncom`，其中，win32com负责获取Autocad的接口，包括一些枚举值，pythoncom主要负责进行数据类型转换。Pycomcad设计理念非常的简单，就是把win32com中多层调用的函数或者属性包裹为一个函数，用以方便记忆调用以及减少敲码次数，而不用每次都按照AutoCAD对象模型树一层一层的调用。
 
