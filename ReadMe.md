@@ -356,13 +356,19 @@ Utility实际上就是与用户交互，比如用户输入字母，数字，做�
 
 ​		维护项目不易，如果您觉得该项目有帮到您，可以请博主喝杯咖啡~
 
+  **微信二维码**
+
 <img src="https://cdn.jsdelivr.net/gh/JohnYang1210/bloggitpic/img/20210227104234.jpg" alt="微信图片_20210227104225" style="zoom:50%;" />
 
-​                                                                                                         **微信二维码**
+​                                                   
+
+------
+
+  **支付宝二维码**                             
 
 <img src="https://cdn.jsdelivr.net/gh/JohnYang1210/bloggitpic/img/20210227104423.jpg" alt="微信图片_20210227104410" style="zoom: 45%;" />
 
-​                                                                                                     **支付宝二维码**
+​                                                                                                   
 
 **English version of Introduction:**
 
