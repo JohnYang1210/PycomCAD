@@ -428,10 +428,18 @@ If you have any interest in this project,clone it,see the source and apply it to
 
 ​		It's not easy for maintaining this project, and if you find it is useful , you can donate me a cup of caffee! 
 
+  **WeChat QR  Code**
+
 <img src="https://cdn.jsdelivr.net/gh/JohnYang1210/bloggitpic/img/20210227104234.jpg" alt="微信图片_20210227104225" style="zoom:50%;" />
 
-​                                                                                                         **WeChat QR  Code**
+​                                                                                                      
+
+------
+
+ 
+
+​    **Alipay QR Code**
 
 <img src="https://cdn.jsdelivr.net/gh/JohnYang1210/bloggitpic/img/20210227104423.jpg" alt="微信图片_20210227104410" style="zoom: 45%;" />
 
-​                                                                                                     **Alipay QR Code**
+​                                                                                                 
