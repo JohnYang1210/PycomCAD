@@ -131,6 +131,40 @@ class Autocad:
 		self.acad.ActiveDocument.SendCommand(command)
 	
 	"""
+	Registered Applications
+	"""
+	@property 
+	def RApps(self):
+		"""
+		return registered applications collections, it has `Add(str)` and `Item(int)` method, `Count` property
+		"""
+		return self.acad.ActiveDocument.RegisteredApplications
+	
+	@property 
+	def RAppNames(self):
+		"""
+		return registerd application names list
+		"""
+		names=[]
+		for item in range(self.rApps.Count):
+			names.append(self.rApps.Item(item).Name)
+		return names
+	def SetXData(self,entity,xdataPairs):
+		"""
+		set XData for entity
+		xdataPairs:list containing tuple which represent xdataType and xdata.
+		>>>circle=acad.AddCircle(Apoint(0,0),20)
+		>>>acad.SetXdata(circle,[(1001,'test'),(1000,'this is an example')])
+		"""
+		xdataType=[]
+		xdataValue=[]
+		for i,j in xdataPairs:
+			xdataType.append(i)
+			xdataValue.append(j)
+		entity.SetXData(FilterType(xdataType),FilterData(xdataValue))
+		
+
+	"""
 	Layouts
 	"""
 	@property 

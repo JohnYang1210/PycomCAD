@@ -126,6 +126,17 @@ Autocad版本号与ProgID对应关系表如下：
 
 
 
+* Registered Application
+
+| 属性      | 作用                                                         |
+| --------- | ------------------------------------------------------------ |
+| RAppNames | 返回图形对象的Registered Application对象集合所包含所有对象的名字 |
+| RApps     | 返回图形对象的Registered Applications对象集合                |
+
+| 方法     | 作用                   |
+| -------- | ---------------------- |
+| SetXData | 为实体/非实体添加XData |
+
 * 文件处理
 
 | 方法          | 作用                             |
