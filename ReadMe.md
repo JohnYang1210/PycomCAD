@@ -1,5 +1,7 @@
 **中文版本介绍**
 
+**项目地址：https://github.com/JohnYang1210/PycomCAD **
+
 # PyComCAD介绍及开发方法
 
 ## 1.综述
@@ -123,6 +125,12 @@ Autocad版本号与ProgID对应关系表如下：
 | GetVariable | 获取系统变量 |
 
 ------
+
+* version
+
+| 属性    | 作用                                   |
+| ------- | -------------------------------------- |
+| Version | 返回打开AutoCAD的版本，如'AutoCAD2007' |
 
 
 

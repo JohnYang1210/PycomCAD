@@ -89,6 +89,33 @@ class Autocad:
 		except:
 			Autocad.__init__(self)
 	"""
+	version
+	"""
+	@property 
+	def Version(self):
+		version_dict={
+			'15.0':'AutoCAD2002',
+			'16.0':'AutoCAD2004',
+			'16.1':'AutoCAD2005',
+			'16.2':'AutoCAD2006',
+			'17.0':'AutoCAD2007',
+			'17.1':'AutoCAD2008',
+			'17.2':'AutoCAD2009',
+			'18.0':'AutoCAD2010',
+			'18.1':'AutoCAD2011',
+			'18.2':'AutoCAD2012',
+			'19.0':'AutoCAD2013',
+			'19.1':'AutoCAD2014',
+			'20.0':'AutoCAD2015',
+			'20.1':'AutoCAD2016',
+			'21.0':'AutoCAD2017',
+			'22.0':'AutoCAD2018',
+			'23.0':'AutoCAD2019',
+			'23.1':'AutoCAD2020'
+		}
+		v=self.acad.version.split('s')[0]
+		return version_dict.get(v,'UnKnown')
+	"""
 	Application
 	"""
 	@property 
